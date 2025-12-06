@@ -1,82 +1,77 @@
---COLORS
-vim.opt.termguicolors = true
-vim.cmd 'colorscheme modcraeft'
-vim.opt.cursorline = true 
+-- init.lua – Neovim ≥0.9
 
---TABS
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+-- BASIC SETTINGS
+vim.opt.termguicolors = true          -- 24-bit RGB colors
+vim.cmd.colorscheme('modcraeft')
+vim.opt.cursorline = true
 
---SIDESCROLL
-vim.cmd 'set nowrap'
-vim.cmd 'set sidescroll=1'
+-- Tabs & indentation
+vim.opt.tabstop     = 4
+vim.opt.shiftwidth  = 4
+vim.opt.expandtab   = true             -- use spaces instead of tabs
+vim.opt.smartindent = true
 
---SCROLL OFFSET
-vim.opt.scrolloff = math.floor(vim.opt.lines:get() / 4)
+-- Scrolling & viewport
+vim.opt.wrap        = false
+vim.opt.sidescroll  = 1
+vim.opt.scrolloff   = math.floor(vim.o.lines / 4)   -- keep ¼ of screen as buffer when scrolling
+vim.opt.sidescrolloff = 8
 
---XCLIP
-vim.cmd 'set clipboard+=unnamedplus'
+-- Clipboard (use system clipboard)
+vim.opt.clipboard = 'unnamedplus'
 
---Line Numbers
-vim.wo.number = true
-vim.o.relativenumber = true
+-- Line numbers
+vim.wo.number         = true
+vim.wo.relativenumber = true
 
---Restore Cursor Position
-local lastplace = vim.api.nvim_create_augroup("LastPlace", {})
-vim.api.nvim_clear_autocmds({ group = lastplace })
-vim.api.nvim_create_autocmd("BufReadPost", {
-    group = lastplace,
-    pattern = { "*" },
-    desc = "remember last cursor place",
-    callback = function()
-        local mark = vim.api.nvim_buf_get_mark(0, '"')
-        local lcount = vim.api.nvim_buf_line_count(0)
-        if mark[1] > 0 and mark[1] <= lcount then
-            pcall(vim.api.nvim_win_set_cursor, 0, mark)
-        end
-    end,
+-- Spelling (British English)
+vim.opt.spell         = true
+vim.opt.spelllang     = { 'en_gb' }
+
+-- RESTORE LAST CURSOR POSITION
+local lastplace_augroup = vim.api.nvim_create_augroup('LastPlace', { clear = true })
+vim.api.nvim_create_autocmd('BufReadPost', {
+  group = lastplace_augroup,
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
 })
 
---Load Vim-Plug
-vim.cmd("source $HOME/.config/nvim/vim-plug/plugins.vim")
-
---NEOSCROLL
-require('neoscroll').setup()
-vim.cmd 'map <PageUp> 	<C-b>'
-vim.cmd 'map <PageDown> <C-f>'
-
---vim.cmd '<esc>:zz<cr>'
-vim.cmd.normal(vim.api.nvim_replace_termcodes('<esc>zz<cr>', true, true, true))
-
---vim.cmd('cursor.vim')
-
-
--- disable netrw at the very start of your init.lua
-vim.g.loaded_netrw = 1
+-- DISABLE NETRW (for nvim-tree)
+vim.g.loaded_netrw       = 1
 vim.g.loaded_netrwPlugin = 1
 
--- optionally enable 24-bit colour
-vim.opt.termguicolors = true
+-- PLUGINS
+vim.cmd.source(vim.fn.stdpath('config') .. '/vim-plug/plugins.vim')
 
--- empty setup using defaults
-require("nvim-tree").setup()
-
--- OR setup with some options
-require("nvim-tree").setup({
-  sort = {
-    sorter = "case_sensitive",
-  },
-  view = {
-    width = 30,
-  },
-  renderer = {
-    group_empty = true,
-  },
-  filters = {
-    dotfiles = true,
-  },
+-- NVIM-TREE
+require('nvim-tree').setup({
+  sort = { sorter = 'case_sensitive' },
+  view = { width = 30 },
+  renderer = { group_empty = true },
+  filters = { dotfiles = true },
 })
 
+-- NEOSCROLL (smooth scrolling)
+local neoscroll = require('neoscroll')
+neoscroll.setup({
+  hide_cursor = true,
+  stop_eof = true,
+})
 
-vim.opt.spell = true
-vim.opt.spelllang = { "en_gb" } -- Set your preferred language(s)
+-- Remap PageUp/PageDown to smooth versions
+local keymap = vim.keymap.set
+keymap({'n', 'v'}, '<PageUp>',   function() neoscroll.scroll(-vim.wo.scroll, true, 150) end)
+keymap({'n', 'v'}, '<PageDown>', function() neoscroll.scroll( vim.wo.scroll, true, 150) end)
+
+--CENTER SCREEN AFTER ESC (zz on <Esc> in normal mode)
+keymap('n', '<Esc>', '<Esc>zz', { silent = true })
+
+--CENTER ON SEARCH NEXT/PREV
+keymap('n', 'n', 'nzzzv')
+keymap('n', 'N', 'Nzzzv')
+
