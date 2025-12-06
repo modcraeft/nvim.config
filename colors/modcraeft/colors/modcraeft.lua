@@ -43,8 +43,8 @@ hi('SignColumn',   { bg = 'none' })
 hi('Folded',       { fg = '#7f7f7f', bg = '#1c1c1c' })
 hi('NonText',      { fg = '#0000ff', bold = true })
 hi('EndOfBuffer',  { fg = '#333333', bold = true })
-hi('SpellBad',     { undercurl = true, sp = '#ff0000' })
-hi('SpellCap',     { undercurl = true, sp = '#5c5cff' })
+hi('SpellBad',     { undercurl = false, underline = true, sp = '#ff0000' })
+hi('SpellCap',     { undercurl = false, underline = true, sp = '#5c5cff' })
 
 -- Diff
 hi('DiffAdd',      { bg = '#003300' })
