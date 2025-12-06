@@ -1,5 +1,3 @@
--- All your previous settings (cleaned up a bit)
-
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
 
