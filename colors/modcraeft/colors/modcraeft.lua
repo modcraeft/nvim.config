@@ -26,7 +26,7 @@ hi('Special',      { fg = '#5599ff' })
 hi('Underlined',   { fg = '#80a0ff', underline = true })
 hi('Error',        { fg = '#ffffff', bg = '#ff0000' })
 hi('Todo',         { fg = '#050505', bg = '#ff0000', bold = true })
-hi('CursorLine',   { bg = '#0f0f0f' })        -- very subtle dark grey
+hi('CursorLine',   { bg = '#000000' })
 hi('CursorLineNr', { fg = '#8888aa', bg = '#050505', bold = true })
 hi('LineNr',       { fg = '#444444' })
 hi('Visual',       { bg = '#264f78' })
