@@ -17,6 +17,9 @@ vim.opt.relativenumber = true
 vim.opt.spell       = true
 vim.opt.spelllang   = { "en_gb" }
 
+
+vim.opt.splitright = true
+
 -- Restore cursor position
 local lastplace = vim.api.nvim_create_augroup("LastPlace", {})
 vim.api.nvim_create_autocmd("BufReadPost", {

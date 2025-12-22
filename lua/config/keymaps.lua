@@ -13,7 +13,7 @@ vim.g.maplocalleader = " "
 local neoscroll = require("neoscroll")
 
 neoscroll.setup({
-  hide_cursor       = true,   -- you like this
+  hide_cursor       = true,
   stop_eof          = true,
   respect_scrolloff = true,
   cursor_scrolls_alone = true,
@@ -37,7 +37,7 @@ end, opts)
 
 
 -- Centering
-map("n", "<Esc>", "<Esc>zz", opts)        -- escape → center screen
+-- map("n", "<Esc>", "<Esc>zz", opts)        -- escape → center screen
 map("n", "n",     "nzzzv",  opts)        -- next search → center
 map("n", "N",     "Nzzzv",  opts)        -- prev search → center
 map("n", "g;",    "g;zz",   opts)        -- jump older → center
@@ -51,5 +51,19 @@ map("n", "<leader>Q", ":qa!<CR>",    { desc = "Quit without saving" })
 
 -- Clear search highlight with Esc in normal mode (double-Esc is common)
 map("n", "<Esc><Esc>", ":noh<CR>", opts)
+
+-- Parrot (<leader>pc)
+map("n", "<leader>pc", ":PrtChatNew<CR>", { desc = "Parrot: New Chat" })
+map("v", "<leader>pr", ":PrtRewrite ", { desc = "Parrot: Rewrite selection" })
+
+-- Terminal (<leader>t)
+local map = vim.keymap.set
+
+map("n", "<leader>t", function()
+  vim.cmd("botright split")
+  vim.cmd("resize 15")        -- optional: set height
+  vim.cmd("terminal")
+  vim.cmd("startinsert")
+end, { desc = "Open terminal in bottom horizontal split (full width)" })
 
 return {}

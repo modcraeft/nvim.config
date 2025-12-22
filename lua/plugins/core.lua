@@ -74,6 +74,13 @@ return {
     lazy = false,
   },
 
+  -- plenary.nvim (required by parrot.nvim)
+  { "nvim-lua/plenary.nvim", lazy = flase },
+
+  -- fzf-lua (for fuzzy finding providers/models/context)
+  { "ibhagwan/fzf-lua", lazy = false },
+
+
 
 
   -- Which-key
