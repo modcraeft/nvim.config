@@ -12,7 +12,7 @@ Parrot
 Plenary
 fzf
 ```
-# Colors
+## Colors
 ```
 modcraeft 
 ```
