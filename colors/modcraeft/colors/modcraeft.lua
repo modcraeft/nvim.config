@@ -16,7 +16,7 @@ end
 hi('Normal',       { fg = '#e5e5e5', bg = '#000000' })
 hi('Comment',      { fg = '#8888aa', italic = true })
 hi('Constant',     { fg = '#5599ff' })
-hi('String',       { fg = '#5599ff' })
+hi('String',       { fg = '#00FF00' })
 hi('Identifier',   { fg = '#777777' })
 hi('Function',     { fg = '#777777' })
 hi('Statement',    { fg = '#5599ff', bold = true })
